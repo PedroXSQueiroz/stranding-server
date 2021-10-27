@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
+import org.springframework.test.context.jdbc.Sql;
 
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.models.User;
@@ -28,6 +29,8 @@ import br.com.pedroxsqueiroz.stranding.services.UserService;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
+@Sql({ 		"/migrations/V001__starting_schema.sql"
+			,"/feedInitialData/initial_posts_and_users.sql" })
 public class UserServiceTest {
 
 	@Autowired

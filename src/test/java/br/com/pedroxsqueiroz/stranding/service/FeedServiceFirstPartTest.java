@@ -22,6 +22,8 @@ import br.com.pedroxsqueiroz.stranding.models.User;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @SpringBootTest
+@Sql({ 		"/migrations/V001__starting_schema.sql"
+			,"/feedInitialData/initial_posts_and_users.sql" })
 public class FeedServiceFirstPartTest extends AbstractFeedTest{
 	
 	@Override
