@@ -3,7 +3,6 @@ package br.com.pedroxsqueiroz.stranding.services.impl;
 import java.util.Base64;
 
 import org.apache.logging.log4j.util.Strings;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserService{
 			
 			if(!tokenPayload.has("login")) 
 			{
-				throw new TokenException(String.format("Field 'login' is required on token body"));
+				throw new TokenException("Field 'login' is required on token body");
 			}
 			
 			String login = tokenPayload.get("login").asText();
@@ -89,7 +88,7 @@ public class UserServiceImpl implements UserService{
 		}
 		catch(SignatureVerificationException signatureException) {
 			
-			throw new TokenException(String.format("Token value is malformed, impossible to decrypt"));
+			throw new TokenException("Token value is malformed, impossible to decrypt");
 			
 		}
 		catch (JsonProcessingException e) {
