@@ -27,8 +27,8 @@
 		<sonar.exclusions>
 			**/br/com/pedroxsqueiroz/stranding/repository/*.java,
 			**/br/com/pedroxsqueiroz/stranding/dtos/*.java,
-			**/br/com/pedroxsqueiroz/stranding/models/*.java
-			**/br/com/pedroxsqueiroz/stranding/dtos/*.java
+			**/br/com/pedroxsqueiroz/stranding/models/*.java,
+			**/br/com/pedroxsqueiroz/stranding/dtos/*.java,
 			**/br/com/pedroxsqueiroz/stranding/service/*.java
 		</sonar.exclusions>
  		
