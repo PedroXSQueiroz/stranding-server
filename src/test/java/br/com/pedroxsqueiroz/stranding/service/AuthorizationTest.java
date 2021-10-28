@@ -20,14 +20,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.security.core.userdetails.User;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.filters.AuthorizationFilter;
 import br.com.pedroxsqueiroz.stranding.models.User;
-import br.com.pedroxsqueiroz.stranding.services.AuthorizationService;
 import br.com.pedroxsqueiroz.stranding.services.UserService;
 import br.com.pedroxsqueiroz.stranding.services.impl.AuthorizationServiceImpl;
 
