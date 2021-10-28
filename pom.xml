@@ -18,6 +18,20 @@
 		<java.version>11</java.version>
 		<sonar.organization>pedroxsqueiroz</sonar.organization>
  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+ 		
+ 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+ 		<jacoco.version>0.8.6</jacoco.version>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.language>java</sonar.language>
+		<sonar.exclusions>
+			**/br/com/pedroxsqueiroz/stranding/repository/*.java,
+			**/br/com/pedroxsqueiroz/stranding/dtos/*.java,
+			**/br/com/pedroxsqueiroz/stranding/models/*.java
+			**/br/com/pedroxsqueiroz/stranding/dtos/*.java
+			**/br/com/pedroxsqueiroz/stranding/service/*.java
+		</sonar.exclusions>
+ 		
 	</properties>
 	<dependencies>
 		<dependency>
@@ -95,6 +109,28 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 

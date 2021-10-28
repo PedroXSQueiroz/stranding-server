@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
@@ -24,8 +26,6 @@ public class UserServiceImpl implements UserService{
 
 	@Value("${encryptionKey}")
 	private String encriptionKey;
-	
-	private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class);
 	
 	@Autowired
 	public void setUserRepository(UserRepository repo) 
@@ -62,29 +62,42 @@ public class UserServiceImpl implements UserService{
 		
 		Algorithm algorithm = Algorithm.HMAC256( this.encriptionKey );
 		
-		DecodedJWT decodedToken = 	JWT	.require(algorithm)
-										.build()
-										.verify(tokenValue);
 		
-		String tokenPayload = new String(  Base64	.getDecoder()
-													.decode(decodedToken.getPayload()) 
-										);
-		
-		ObjectMapper deserializer = new ObjectMapper();
+		String tokenRawPayload = null;
 		
 		try {
 			
-			String login = deserializer.readTree(tokenPayload).get("login").asText();
+			DecodedJWT decodedToken = 	JWT	.require(algorithm)
+					.build()
+					.verify(tokenValue);
+
+			tokenRawPayload = new String(Base64.getDecoder().decode(decodedToken.getPayload()));
+
+			ObjectMapper deserializer = new ObjectMapper();
+
+			JsonNode tokenPayload = deserializer.readTree(tokenRawPayload);
 			
+			if(!tokenPayload.has("login")) 
+			{
+				throw new TokenException(String.format("Field 'login' is required on token body"));
+			}
+			
+			String login = tokenPayload.get("login").asText();
+
 			return this.getByLogin(login);
+
+		}
+		catch(SignatureVerificationException signatureException) {
 			
-		} catch (JsonProcessingException e) {
-			
-			throw new TokenException(
-					String.format( "Content Json %s of token is malformed", tokenPayload )
-				);
+			throw new TokenException(String.format("Token value is malformed, impossible to decrypt"));
 			
 		}
+		catch (JsonProcessingException e) {
+
+			throw new TokenException(String.format("Content Json %s of token is malformed", tokenRawPayload));
+
+		}
+		
 	}
 
 	@Override

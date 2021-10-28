@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.pedroxsqueiroz.stranding.dtos.PostDto;
-import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.models.User;
 import br.com.pedroxsqueiroz.stranding.services.FeedService;
-import br.com.pedroxsqueiroz.stranding.services.UserService;
 
 @RestController()
 @RequestMapping("/posts")
@@ -24,7 +22,7 @@ public class PostsController {
 	private FeedService feedService;
 
 	@GetMapping(name = "/feed/{part}")
-	Page<PostDto> feed(@PathVariable("part") int part, Authentication auth) throws TokenException
+	public Page<PostDto> feed(@PathVariable("part") int part, Authentication auth)
 	{
 		User user = (User) auth.getPrincipal();
 		

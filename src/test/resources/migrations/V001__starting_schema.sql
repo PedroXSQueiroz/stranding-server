@@ -55,4 +55,3 @@ ALTER TABLE post_url_images
 		FOREIGN KEY (post_id)
 		REFERENCES post(post_id);
 
-

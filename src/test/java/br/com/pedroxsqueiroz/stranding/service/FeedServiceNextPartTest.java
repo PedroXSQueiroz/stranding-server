@@ -22,15 +22,19 @@ import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 import br.com.pedroxsqueiroz.stranding.models.Post;
 import br.com.pedroxsqueiroz.stranding.models.User;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @SpringBootTest
-@Sql({ 		"/migrations/V001__starting_schema.sql"
-			,"/feedInitialData/initial_posts_and_users.sql" })
-public class FeedServiceNextPartTest extends AbstractFeedTest{
+@Sql( 	scripts = { "/migrations/V001__starting_schema.sql"
+		,"/feedInitialData/initial_posts_and_users.sql" }
+,executionPhase = ExecutionPhase.BEFORE_TEST_METHOD )
+@Sql( 	scripts = { "/regrations/V001__droping_schema.sql" }
+,executionPhase = ExecutionPhase.AFTER_TEST_METHOD )
+class FeedServiceNextPartTest extends AbstractFeedTest{
 	
 
 	@Override
@@ -93,7 +97,7 @@ public class FeedServiceNextPartTest extends AbstractFeedTest{
 	}
 	
 	@Test
-	public void shoulBuildNextPartOfFeed()
+	void shoulBuildNextPartOfFeed()
 	{
 		final Set<User> foundedUsers = new HashSet<User>();
 		

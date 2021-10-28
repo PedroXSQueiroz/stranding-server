@@ -3,18 +3,13 @@ package br.com.pedroxsqueiroz.stranding.services.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.reactive.ReactiveUserDetailsServiceAutoConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.pedroxsqueiroz.stranding.models.Post;
@@ -69,7 +64,7 @@ public class FeedServiceImpl implements FeedService {
 						).sorted()
 						.collect( Collectors.toList() );
 		
-		return new PageImpl<Post>( 
+		return new PageImpl<>( 
 							posts, 
 							PageRequest.of(currentPostsPart, this.postsPageSize) 
 							, Integer.MAX_VALUE 

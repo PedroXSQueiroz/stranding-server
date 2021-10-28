@@ -18,7 +18,7 @@ import br.com.pedroxsqueiroz.stranding.models.User;
 import br.com.pedroxsqueiroz.stranding.services.FeedService;
 import br.com.pedroxsqueiroz.stranding.services.impl.FeedServiceImpl;
 
-public abstract class AbstractFeedTest {
+abstract class AbstractFeedTest {
 
 	protected abstract Instant getTopFeedFinalDate();
 

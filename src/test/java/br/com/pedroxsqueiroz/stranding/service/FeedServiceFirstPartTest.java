@@ -16,15 +16,19 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 import br.com.pedroxsqueiroz.stranding.models.Post;
 import br.com.pedroxsqueiroz.stranding.models.User;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @SpringBootTest
-@Sql({ 		"/migrations/V001__starting_schema.sql"
-			,"/feedInitialData/initial_posts_and_users.sql" })
-public class FeedServiceFirstPartTest extends AbstractFeedTest{
+@Sql( 	scripts = { "/migrations/V001__starting_schema.sql"
+					,"/feedInitialData/initial_posts_and_users.sql" }
+		,executionPhase = ExecutionPhase.BEFORE_TEST_METHOD )
+@Sql( 	scripts = { "/regrations/V001__droping_schema.sql" }
+		,executionPhase = ExecutionPhase.AFTER_TEST_METHOD )
+class FeedServiceFirstPartTest extends AbstractFeedTest{
 	
 	@Override
 	protected List<Post> getExpectedPosts()
@@ -86,7 +90,7 @@ public class FeedServiceFirstPartTest extends AbstractFeedTest{
 	}
 
 	@Test
-	public void shoulBuildFisrtPartOfFeed()
+	void shoulBuildFisrtPartOfFeed()
 	{
 		final Set<User> foundedUsers = new HashSet<User>();
 		
