@@ -28,5 +28,7 @@ public interface AuthorizationService {
 	}
 	
 	DecodedJWT decodeToken(String token) throws TokenException;
+	
+	boolean login(String login, String password);
 
 }

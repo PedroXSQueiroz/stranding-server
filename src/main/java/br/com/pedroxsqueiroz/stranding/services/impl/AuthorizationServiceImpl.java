@@ -94,5 +94,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		
 	}
 
+	@Override
+	public boolean login(String login, String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 }
