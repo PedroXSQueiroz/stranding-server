@@ -1,7 +1,5 @@
 package br.com.pedroxsqueiroz.stranding.services;
 
-import org.springframework.security.core.Authentication;
-
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.models.User;
 
