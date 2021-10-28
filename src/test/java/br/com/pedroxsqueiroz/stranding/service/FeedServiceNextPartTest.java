@@ -31,9 +31,9 @@ import br.com.pedroxsqueiroz.stranding.models.User;
 @SpringBootTest
 @Sql( 	scripts = { "/migrations/V001__starting_schema.sql"
 		,"/feedInitialData/initial_posts_and_users.sql" }
-,executionPhase = ExecutionPhase.BEFORE_TEST_METHOD )
+		,executionPhase = ExecutionPhase.BEFORE_TEST_METHOD )
 @Sql( 	scripts = { "/regrations/V001__droping_schema.sql" }
-,executionPhase = ExecutionPhase.AFTER_TEST_METHOD )
+		,executionPhase = ExecutionPhase.AFTER_TEST_METHOD )
 class FeedServiceNextPartTest extends AbstractFeedTest{
 	
 

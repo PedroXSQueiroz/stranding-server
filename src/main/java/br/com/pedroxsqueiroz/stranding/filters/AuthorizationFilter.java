@@ -14,18 +14,23 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.models.User;
+import br.com.pedroxsqueiroz.stranding.services.AuthorizationService;
 import br.com.pedroxsqueiroz.stranding.services.UserService;
 
 @Component
-public class AuthenticationFilter extends OncePerRequestFilter{
-
+public class AuthorizationFilter extends OncePerRequestFilter{
+	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AuthorizationService authService;
 	
 	@Override
 	protected void doFilterInternal(
@@ -39,11 +44,14 @@ public class AuthenticationFilter extends OncePerRequestFilter{
 		
 		try {
 			
-			User user = this.userService.getByToken(header);
+			DecodedJWT decodedToken = this.authService.decodeToken(header);
+			String loginFromToken = AuthorizationService.getLoginFromToken(decodedToken);
+			User user = this.userService.getByLogin(loginFromToken);
 			
-			SecurityContextHolder.getContext().setAuthentication(
-													new UsernamePasswordAuthenticationToken(user, null) 
-												);
+			SecurityContextHolder.getContext()
+								.setAuthentication(
+									new UsernamePasswordAuthenticationToken(user, null) 
+								);
 			
 			filterChain.doFilter(request, response);
 			
