@@ -1,6 +1,5 @@
 package br.com.pedroxsqueiroz.stranding.services;
 
-import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.models.User;
 
 public interface UserService {
