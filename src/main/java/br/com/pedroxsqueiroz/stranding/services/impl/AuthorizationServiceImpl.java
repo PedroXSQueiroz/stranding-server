@@ -2,7 +2,6 @@ package br.com.pedroxsqueiroz.stranding.services.impl;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.util.Strings;

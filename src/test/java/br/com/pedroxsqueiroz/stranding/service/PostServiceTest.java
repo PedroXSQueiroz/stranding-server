@@ -29,7 +29,7 @@ import br.com.pedroxsqueiroz.stranding.services.impl.PostServiceImpl;
 		,executionPhase = ExecutionPhase.BEFORE_TEST_METHOD )
 @Sql( 	scripts = { "/regrations/V001__droping_schema.sql" }
 		,executionPhase = ExecutionPhase.AFTER_TEST_METHOD )
-public class PostServiceTest {
+class PostServiceTest {
 	
 	@Autowired
 	public PostService postService = new PostServiceImpl();
