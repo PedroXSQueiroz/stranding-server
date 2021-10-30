@@ -17,15 +17,21 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import br.com.pedroxsqueiroz.stranding.dtos.TokenDto;
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.filters.AuthorizationFilter;
 import br.com.pedroxsqueiroz.stranding.models.User;
+import br.com.pedroxsqueiroz.stranding.services.AuthorizationService;
 import br.com.pedroxsqueiroz.stranding.services.UserService;
 import br.com.pedroxsqueiroz.stranding.services.impl.AuthorizationServiceImpl;
 
@@ -38,6 +44,11 @@ import br.com.pedroxsqueiroz.stranding.services.impl.AuthorizationServiceImpl;
 		,executionPhase = ExecutionPhase.AFTER_TEST_METHOD )
 class AuthorizationTest {
 	
+	public AuthorizationTest( @Autowired AuthorizationServiceImpl authService)
+	{
+		this.authService = authService;
+	}
+	
 	@Mock
 	public HttpServletRequest request;
 	
@@ -48,6 +59,9 @@ class AuthorizationTest {
 	public FilterChain chain;
 	
 	@Mock
+	public AuthorizationServiceImpl mockAuthService;
+	
+	@InjectMocks
 	public AuthorizationServiceImpl authService;
 	
 	@Mock
@@ -55,6 +69,7 @@ class AuthorizationTest {
 	
 	@InjectMocks
 	public AuthorizationFilter filter = new AuthorizationFilter();
+	
 	private User dummyUser = User	.builder()
 									.id(UUID.fromString("c2c15f60-2f0d-11ec-8d3d-0242ac130003"))
 									.build();
@@ -70,13 +85,18 @@ class AuthorizationTest {
 				.getHeader("Authorization");
 		
 		Mockito	.doCallRealMethod()
-				.when(this.authService)
+				.when(this.mockAuthService)
 				.decodeToken(Mockito.anyString());
 		
 		Mockito	.doCallRealMethod()
-				.when(this.authService)
+				.when(this.mockAuthService)
 				.setEncriptionKey(Mockito.anyString());
 		
+		Mockito	.doCallRealMethod()
+				.when(this.mockAuthService)
+				.login(Mockito.any(), Mockito.anyString());
+		
+		this.mockAuthService.setEncriptionKey(this.encryptionKey);
 		this.authService.setEncriptionKey(this.encryptionKey);
 		
 		Mockito	.doReturn(dummyUser)
@@ -96,6 +116,17 @@ class AuthorizationTest {
 		assertEquals(this.dummyUser, loggedUser);
 	}
 	
+	@Test
+	void shouldLogin() throws TokenException, JsonProcessingException 
+	{
+		TokenDto token = this.authService.login("dummy", "P0k0$R#Med87RIaY");
+		
+		DecodedJWT decodedToken = this.authService.decodeToken("Bearer " + token.getToken());
+		
+		String login = AuthorizationService.getLoginFromToken(decodedToken);
+		
+		assertEquals("dummy", login);
+	}
 	
 	
 }

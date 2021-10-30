@@ -1,14 +1,24 @@
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('c2c15f60-2f0d-11ec-8d3d-0242ac130003', 'dummy', 'dummy');
 
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('10e245360494acd7eabd3dc10156c42bc9982d191984f47960fec1abcf2ecc2b', 'c2c15f60-2f0d-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --P0k0$R#Med87RIaY
+
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('a3d23d8c-2f11-11ec-8d3d-0242ac130003','dummy_friend', 'dummy_friend');
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('f84272e156aa18437b3d12d2fcc8d999c820eea43d7f762851b4707e3da5bb6e','a3d23d8c-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --GpB%Y37JImkSe+@Y 
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('c5489bdc-2f11-11ec-8d3d-0242ac130003','dummy_friend_1', 'dummy_friend_1');
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('a793e58fd91f84798259f7d506439d95421938514892bf245d5ac50ec311ebca','c5489bdc-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --@7mmio!4!cRO6qX9
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('cff87ff2-2f11-11ec-8d3d-0242ac130003','dummy_friend_2', 'dummy_friend_2');
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('f3119fbf1d66467089d34cc78f052ba2847ec9c9b8b3857185c57435e31b6083','cff87ff2-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --me47M$#tZnUD1OML
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('d995bb10-2f11-11ec-8d3d-0242ac130003','dummy_friend_3', 'dummy_friend_3');
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('47fbf0fc14406688602f5cbce53690214e0fcbde9e9397e76006be1f15284bd0','d995bb10-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --7MhK7iF6fY0+Z8g8
 
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('e76e1f52-2f11-11ec-8d3d-0242ac130003','dummy_not_friend', 'dummy_not_friend');
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('b5f8766515dd6a268d03bb0e17b51e94639c8e0f7c661ef9dafed3416dfd89fc','e76e1f52-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --N#P+xJHtexmH7B@9
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('efece06e-2f11-11ec-8d3d-0242ac130003','dummy_not_friend_1', 'dummy_not_friend_1');
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('a56b5799759586ad151291748d44e1e245d50ce2865cee5de58005964f1bb2c2','efece06e-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --y06nP!t@sGFU8yuP 
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('f7a77148-2f11-11ec-8d3d-0242ac130003','dummy_not_friend_2', 'dummy_not_friend_2');
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('03815a6a7350c3e88ed400ad307af33e0453da43a8211bf2ce636d1a186dee0c','f7a77148-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --i06sz5E+NJDubNg@
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('ff395f7a-2f11-11ec-8d3d-0242ac130003','dummy_not_friend_3', 'dummy_not_friend_3');
+INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('e88c4bba552011dd69f1fa53cf8c7eab6da15f7a4d459a34dfc6ad63cc242001','ff395f7a-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --l5W#s*J$eT3tQOfS
 
 INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
 	VALUES(  

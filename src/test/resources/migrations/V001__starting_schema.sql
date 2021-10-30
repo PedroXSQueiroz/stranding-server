@@ -22,7 +22,24 @@ ALTER TABLE stranding_user_x_friends
 	ADD	CONSTRAINT User_x_friends_Friends
 		FOREIGN KEY (friend_id)
 		REFERENCES stranding_user(stranding_user_id);
+		
+CREATE TABLE stranding_user_password(
+	stranding_user_password_id uuid not null,
+	hash varchar(256) not null,
+	user_id uuid not null,
+	creation_date timestamp not null
+);
 
+ALTER TABLE stranding_user_password
+	ALTER COLUMN stranding_user_password_id
+	  SET DEFAULT random_uuid();
+
+ALTER TABLE stranding_user_password
+	ADD CONSTRAINT Password_User
+		FOREIGN KEY (user_id)
+		REFERENCES stranding_user(stranding_user_id);
+		
+	  
 CREATE TABLE post(
 	post_id uuid not null,
 	post_content varchar(256) not null,

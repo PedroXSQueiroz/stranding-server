@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.pedroxsqueiroz.stranding.dtos.TokenDto;
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 
 public interface AuthorizationService {
@@ -29,6 +30,6 @@ public interface AuthorizationService {
 	
 	DecodedJWT decodeToken(String token) throws TokenException;
 	
-	boolean login(String login, String password);
+	TokenDto login(String login, String password);
 
 }
