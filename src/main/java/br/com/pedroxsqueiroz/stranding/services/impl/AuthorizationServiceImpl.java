@@ -3,6 +3,7 @@ package br.com.pedroxsqueiroz.stranding.services.impl;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,9 +117,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		{
 			Algorithm algorithm = Algorithm.HMAC256( this.getEncriptionKey() );
 			String token = JWT	.create()
-								.withPayload(new HashMap<String, Object>() {{
-									put("login", login);
-								}})
+								.withPayload(Map.of("login", login))
 								.sign(algorithm);
 			
 			return new TokenDto(token);
