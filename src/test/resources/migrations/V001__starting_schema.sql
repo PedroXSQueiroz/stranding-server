@@ -55,20 +55,22 @@ ALTER TABLE post
 	ADD CONSTRAINT Post_User
 		FOREIGN KEY (stranding_user_id)
 		REFERENCES stranding_user(stranding_user_id);
-		
-CREATE TABLE post_url_images(
-	post_url_image_id uuid not null,
-	post_id uuid not null,
-	url varchar(256) NOT NULL
-);
 
-ALTER TABLE post_url_images
-	ALTER COLUMN post_url_image_id
+CREATE TABLE post_media(
+	post_media_id uuid not null,
+	post_id uuid not null,
+	media_name varchar(256) not null,
+	internal_id varchar(256) not null
+);
+		
+
+ALTER TABLE post_media
+	ALTER COLUMN post_media_id
 		SET DEFAULT random_uuid();
 
 
-ALTER TABLE post_url_images
-	ADD CONSTRAINT Image_Post
+ALTER TABLE post_media
+	ADD CONSTRAINT Media_Post
 		FOREIGN KEY (post_id)
 		REFERENCES post(post_id);
 

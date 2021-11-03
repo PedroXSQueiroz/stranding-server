@@ -1,4 +1,4 @@
-DROP TABLE post_url_images;
+DROP TABLE post_media;
 
 DROP TABLE post;
 

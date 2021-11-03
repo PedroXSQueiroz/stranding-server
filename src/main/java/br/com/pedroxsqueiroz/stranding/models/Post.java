@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -46,7 +47,10 @@ public class Post implements Comparable<Post>{
 	@ElementCollection()
 	@CollectionTable(name = "post_url_images"
 					,joinColumns = @JoinColumn(name = "post_id"))
-	private List<String> urlImages;
+	
+	
+	@OneToMany(mappedBy = "post")
+	private List<PostMedia> medias;
 
 	@ManyToOne
 	@JoinColumn(name = "stranding_user_id")

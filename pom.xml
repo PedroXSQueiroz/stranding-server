@@ -17,10 +17,10 @@
 	<properties>
 		<java.version>11</java.version>
 		<sonar.organization>pedroxsqueiroz</sonar.organization>
- 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
- 		
- 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
- 		<jacoco.version>0.8.6</jacoco.version>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<jacoco.version>0.8.6</jacoco.version>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
@@ -31,7 +31,7 @@
 			**/br/com/pedroxsqueiroz/stranding/dtos/*.java,
 			**/br/com/pedroxsqueiroz/stranding/service/*.java
 		</sonar.exclusions>
- 		
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -92,12 +92,34 @@
 			<artifactId>java-jwt</artifactId>
 			<version>3.18.2</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 		<dependency>
-		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		    <version>31.0.1-jre</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>31.0.1-jre</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.testcontainers/testcontainers -->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>1.16.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.99</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>aws-sdk-java</artifactId>
+			<version>2.17.73</version>
 		</dependency>
 
 	</dependencies>
@@ -116,7 +138,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -137,7 +159,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
