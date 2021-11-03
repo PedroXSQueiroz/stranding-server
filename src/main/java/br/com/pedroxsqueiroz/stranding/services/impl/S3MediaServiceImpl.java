@@ -65,30 +65,34 @@ public class S3MediaServiceImpl implements MediaService{
 		{
 			int partNumber = 0;
 			
+			
+			
 			while(inputStream.available() > 0) 
 			{
 				
-				byte[] buffer = new byte[ Math.min(inputStream.available(), this.partSize) ];
+				byte[] partBytes = new byte[ Math.min(inputStream.available(), this.partSize) ];
 				
-				inputStream.read(buffer);
+				if( inputStream.read(partBytes) > 0 ) 
+				{
+					UploadPartRequest part = UploadPartRequest	.builder()
+							.bucket(bucketName)
+							.partNumber(partNumber)
+							.uploadId(upload.uploadId())
+							.key(mediaId)
+							.build();
+					
+					UploadPartResponse uploadPart = this.client.uploadPart( part, RequestBody.fromBytes(partBytes) );
+					
+					completedParts.add(
+							CompletedPart	.builder()
+							.partNumber(partNumber)
+							.eTag(uploadPart.eTag())
+							.build()
+							);
+					
+					partNumber++;					
+				}
 				
-				UploadPartRequest part = UploadPartRequest	.builder()
-															.bucket(bucketName)
-															.partNumber(partNumber)
-															.uploadId(upload.uploadId())
-															.key(mediaId)
-															.build();
-									
-				UploadPartResponse uploadPart = this.client.uploadPart( part, RequestBody.fromBytes(buffer) );
-				
-				completedParts.add(
-								CompletedPart	.builder()
-												.partNumber(partNumber)
-												.eTag(uploadPart.eTag())
-												.build()
-								);
-				
-				partNumber++;
 				
 			}
 		
