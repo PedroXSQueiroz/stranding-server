@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.pedroxsqueiroz.stranding.dtos.PostDto;
 import br.com.pedroxsqueiroz.stranding.exception.MediaServiceNotAvailable;
+import br.com.pedroxsqueiroz.stranding.exception.PostNotFoundException;
 import br.com.pedroxsqueiroz.stranding.models.Post;
 import br.com.pedroxsqueiroz.stranding.models.PostMedia;
 import br.com.pedroxsqueiroz.stranding.models.User;
@@ -61,7 +62,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostMedia> attachMedias(UUID postId, Map<String, InputStream> medias) throws MediaServiceNotAvailable {
+	public List<PostMedia> attachMedias(UUID postId, Map<String, InputStream> medias) throws MediaServiceNotAvailable, PostNotFoundException {
 		
 		if(this.postMediaService == null)
 		{
@@ -72,7 +73,7 @@ public class PostServiceImpl implements PostService {
 		
 		if(postQuey.isEmpty()) 
 		{
-			return null;
+			throw new PostNotFoundException();
 		}
 		
 		Post post = postQuey.get();
@@ -94,8 +95,5 @@ public class PostServiceImpl implements PostService {
 				.collect(Collectors.toList());
 		
 	}
-
-	private void save(PostMedia postmedia1) {
-	}
-
+	
 }

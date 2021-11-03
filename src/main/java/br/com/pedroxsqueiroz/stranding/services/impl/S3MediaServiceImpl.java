@@ -59,7 +59,7 @@ public class S3MediaServiceImpl implements MediaService{
 		
 		CreateMultipartUploadResponse upload = this.client.createMultipartUpload(multipartRequest);
 		
-		List<CompletedPart> completedParts = new ArrayList<CompletedPart>();
+		List<CompletedPart> completedParts = new ArrayList<>();
 		
 		try 
 		{

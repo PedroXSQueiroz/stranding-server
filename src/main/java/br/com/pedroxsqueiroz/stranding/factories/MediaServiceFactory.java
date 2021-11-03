@@ -3,6 +3,7 @@ package br.com.pedroxsqueiroz.stranding.factories;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.jboss.logging.Logger;
@@ -35,7 +36,7 @@ public class MediaServiceFactory {
 				.entrySet()
 				.stream()
 				.filter(param -> Strings.isNullOrEmpty(param.getValue()))
-				.map(param -> param.getKey())
+				.map(Entry::getKey)
 				.collect(Collectors.toList());
 
 		if (!missingParams.isEmpty()) {
@@ -65,11 +66,10 @@ public class MediaServiceFactory {
 									.build()
 							);
 						
-		S3MediaServiceImpl s3MediaServiceImpl = new S3MediaServiceImpl(
-																client
-																, bucketName
-																, partSize);
-		return s3MediaServiceImpl;
+		return new S3MediaServiceImpl(client
+									, bucketName
+									, partSize);
+
 	}
 
 }

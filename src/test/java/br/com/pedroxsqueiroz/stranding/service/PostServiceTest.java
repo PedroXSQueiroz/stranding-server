@@ -29,6 +29,7 @@ import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
 
 import br.com.pedroxsqueiroz.stranding.dtos.PostDto;
 import br.com.pedroxsqueiroz.stranding.exception.MediaServiceNotAvailable;
+import br.com.pedroxsqueiroz.stranding.exception.PostNotFoundException;
 import br.com.pedroxsqueiroz.stranding.factories.MediaServiceFactory;
 import br.com.pedroxsqueiroz.stranding.models.Post;
 import br.com.pedroxsqueiroz.stranding.models.PostMedia;
@@ -119,7 +120,7 @@ class PostServiceTest {
 	}
 	
 	@Test
-	void shouldAttachMediaToPost() throws MediaServiceNotAvailable 
+	void shouldAttachMediaToPost() throws MediaServiceNotAvailable, PostNotFoundException 
 	{
 		GenericContainer<?> objectStorage = this.getObjectStorage();
 		objectStorage.start();
