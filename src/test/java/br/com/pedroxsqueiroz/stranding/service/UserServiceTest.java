@@ -1,10 +1,21 @@
 package br.com.pedroxsqueiroz.stranding.service;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.UUID;
+
+import javax.transaction.Transactional;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
@@ -13,10 +24,13 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.google.common.hash.Hashing;
 
+import br.com.pedroxsqueiroz.stranding.dtos.UserDto;
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.models.User;
 import br.com.pedroxsqueiroz.stranding.services.AuthorizationService;
+import br.com.pedroxsqueiroz.stranding.services.UserPasswordService;
 import br.com.pedroxsqueiroz.stranding.services.UserService;
 
 
@@ -29,8 +43,26 @@ import br.com.pedroxsqueiroz.stranding.services.UserService;
 		,executionPhase = ExecutionPhase.AFTER_TEST_METHOD )
 class UserServiceTest {
 
-	@Autowired
-	private AuthorizationService authService;
+	UserServiceTest	(@Autowired AuthorizationService authService
+					,@Autowired UserService userService)
+	{
+		this.authService = authService;
+		this.userService = userService;
+	}
+	
+	@BeforeAll
+	public void setup() 
+	{
+		
+	}
+	
+	@Mock
+	public UserPasswordService passwordService;
+	
+	private final AuthorizationService authService;
+	
+	@InjectMocks
+	private final UserService userService;
 	
 	@Test
 	void shouldGetUserFromAuthentication() throws TokenException, JsonMappingException, JsonProcessingException 
@@ -89,6 +121,54 @@ class UserServiceTest {
 		);
 		
 		assertEquals( "Field 'login' is required on token body", wrongPayloadException.getMessage() );
+	}
+	
+	@Test
+	void shouldSave() 
+	{
+		
+		UserDto userDto = UserDto.builder()
+								.name("Runtime Saved")
+								.login("runtime_saved")
+								.password("runtime_saved_password")
+								.build();
+		
+		User created = this.userService.create(userDto);
+		
+		assertNotNull( created.getId() );
+		
+		assertEquals(userDto.getLogin(), created.getLogin());
+		assertEquals(userDto.getName(), created.getName());
+		
+		Mockito.verify(this.passwordService, Mockito.times(1)).save(Mockito.any());
+		
+	}
+	
+	@Test
+	@Transactional
+	void shouldAddFriendTest()
+	{
+		List<User> newFriends = this.userService.addFriends(
+													UUID.fromString("c2c15f60-2f0d-11ec-8d3d-0242ac130003")
+													,List.of( 	
+														UUID.fromString("e76e1f52-2f11-11ec-8d3d-0242ac130003")
+														,UUID.fromString("efece06e-2f11-11ec-8d3d-0242ac130003")
+														,UUID.fromString("f7a77148-2f11-11ec-8d3d-0242ac130003")
+														,UUID.fromString("ff395f7a-2f11-11ec-8d3d-0242ac130003")
+														)  
+													);
+		
+		newFriends.forEach( friend -> {
+			
+			List<User> inverseFriends = friend.getFriends();
+			
+			assertEquals(1, inverseFriends.size());
+			
+			User user = inverseFriends.get(0);
+			
+			assertEquals("c2c15f60-2f0d-11ec-8d3d-0242ac130003", user.getId().toString());
+			
+		});
 		
 	}
 	

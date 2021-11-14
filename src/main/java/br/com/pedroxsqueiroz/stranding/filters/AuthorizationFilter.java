@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,14 +24,18 @@ import br.com.pedroxsqueiroz.stranding.models.User;
 import br.com.pedroxsqueiroz.stranding.services.AuthorizationService;
 import br.com.pedroxsqueiroz.stranding.services.UserService;
 
-@Component
+//@Component
 public class AuthorizationFilter extends OncePerRequestFilter{
 	
-	@Autowired
 	private UserService userService;
 	
-	@Autowired
 	private AuthorizationService authService;
+	
+	public AuthorizationFilter(ApplicationContext context)
+	{
+		this.userService = context.getBean(UserService.class);
+		this.authService = context.getBean(AuthorizationService.class);
+	}
 	
 	@Override
 	protected void doFilterInternal(
@@ -68,6 +73,15 @@ public class AuthorizationFilter extends OncePerRequestFilter{
 				
 		}
 		
+	}
+	
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		
+		String requestURI = request.getRequestURI();
+		
+		return 	( "/user".equals(requestURI) && "POST".equals( request.getMethod() ) )
+				|| ( "/login".equals(requestURI) && "POST".equals( request.getMethod() ) );
 	}
 
 }

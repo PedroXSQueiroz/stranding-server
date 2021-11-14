@@ -20,6 +20,8 @@ INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('03815a
 INSERT INTO stranding_user(stranding_user_id, stranding_user_name, stranding_user_login) values('ff395f7a-2f11-11ec-8d3d-0242ac130003','dummy_not_friend_3', 'dummy_not_friend_3');
 INSERT INTO stranding_user_password(hash, user_id, creation_date) VALUES('e88c4bba552011dd69f1fa53cf8c7eab6da15f7a4d459a34dfc6ad63cc242001','ff395f7a-2f11-11ec-8d3d-0242ac130003', CURRENT_TIMESTAMP()); --l5W#s*J$eT3tQOfS
 
+-- DIRECT PRINCIPAL FRIENDS 
+
 INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
 	VALUES(  
 		'c2c15f60-2f0d-11ec-8d3d-0242ac130003'
@@ -43,7 +45,35 @@ INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
 		'c2c15f60-2f0d-11ec-8d3d-0242ac130003'
 		,'d995bb10-2f11-11ec-8d3d-0242ac130003' -- dummy_friend_3
 	);
+	
 
+-- INSVERSE PRINCIPAL FRIENDS
+
+	INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
+	VALUES(  
+		'a3d23d8c-2f11-11ec-8d3d-0242ac130003' -- dummy_friend
+		,'c2c15f60-2f0d-11ec-8d3d-0242ac130003'
+	);
+
+INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
+	VALUES(  
+		'c5489bdc-2f11-11ec-8d3d-0242ac130003' -- dummy_friend_1
+		,'c2c15f60-2f0d-11ec-8d3d-0242ac130003'
+	);
+
+INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
+	VALUES(  
+		'cff87ff2-2f11-11ec-8d3d-0242ac130003' -- dummy_friend_2
+		,'c2c15f60-2f0d-11ec-8d3d-0242ac130003'
+	);
+
+INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
+	VALUES(  
+		'd995bb10-2f11-11ec-8d3d-0242ac130003' -- dummy_friend_3
+		,'c2c15f60-2f0d-11ec-8d3d-0242ac130003'
+	);
+
+	
 -- FRIEND'S POSTS
 
 -- POSTS FRIEND 1
