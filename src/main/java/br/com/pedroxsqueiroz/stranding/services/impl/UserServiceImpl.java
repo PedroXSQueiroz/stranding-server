@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService{
 		
 		}
 		
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 }
