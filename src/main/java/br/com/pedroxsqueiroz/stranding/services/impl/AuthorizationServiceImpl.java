@@ -130,11 +130,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public String encode(CharSequence rawPassword) {
 
-		String passwordHash = Hashing	.sha256()
-				.hashString(rawPassword, StandardCharsets.UTF_8)
-				.toString();
+		return Hashing	.sha256()
+						.hashString(rawPassword, StandardCharsets.UTF_8)
+						.toString();
 		
-		return passwordHash;
 	}
 
 	@Override

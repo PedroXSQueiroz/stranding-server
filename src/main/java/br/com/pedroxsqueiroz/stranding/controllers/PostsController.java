@@ -36,8 +36,6 @@ import br.com.pedroxsqueiroz.stranding.services.PostService;
 @RestController()
 @RequestMapping("/posts")
 public class PostsController {
-
-	private final static Logger LOGGER = Logger.getLogger(PostsController.class.getName());
 	
 	@Autowired
 	private PostService postService;

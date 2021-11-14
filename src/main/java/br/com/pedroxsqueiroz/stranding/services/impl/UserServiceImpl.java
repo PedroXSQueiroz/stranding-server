@@ -2,6 +2,7 @@ package br.com.pedroxsqueiroz.stranding.services.impl;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -11,7 +12,6 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService{
 		List<User> newFriends = friendsIds	.stream()
 									.map(userRepository::findById)
 									.filter(Optional::isPresent)
-									.map( queryUser -> queryUser.get())
+									.map( Optional::get )
 									.collect(Collectors.toList());
 		
 		if(userQuery.isPresent()) 
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService{
 		
 		}
 		
-		return null;
+		return Collections.EMPTY_LIST;
 	}
 
 }

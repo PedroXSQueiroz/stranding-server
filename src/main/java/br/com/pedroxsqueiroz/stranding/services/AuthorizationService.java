@@ -34,8 +34,6 @@ public interface AuthorizationService extends UserDetailsService, PasswordEncode
 	
 	DecodedJWT decodeToken(String token) throws TokenException;
 	
-//	TokenDto login(String login, String password);
-	
 	TokenDto createToken(Authentication authentication);
 
 }
