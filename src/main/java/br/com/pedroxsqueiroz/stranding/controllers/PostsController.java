@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.pedroxsqueiroz.stranding.dtos.PostDto;
+import br.com.pedroxsqueiroz.stranding.dtos.PostMediaDto;
 import br.com.pedroxsqueiroz.stranding.exception.MediaServiceNotAvailable;
 import br.com.pedroxsqueiroz.stranding.exception.PostNotFoundException;
 import br.com.pedroxsqueiroz.stranding.models.Post;
@@ -67,9 +68,9 @@ public class PostsController {
 		return new ModelMapper().map(savedPost, PostDto.class);
 	}
 	
-	@PutMapping("/{postId}/media")
+	@PostMapping("/{postId}/media")
 	@ResponseBody
-	public Map<String, String> attachMedia( @PathVariable("postId") String postId, List<MultipartFile> medias ) throws MediaServiceNotAvailable, PostNotFoundException, IOException
+	public List<PostMediaDto> attachMedia( @PathVariable("postId") String postId, List<MultipartFile> medias ) throws MediaServiceNotAvailable, PostNotFoundException, IOException
 	{
 		
 		Map<String, InputStream> mediasMap = new HashMap<>();
@@ -86,11 +87,8 @@ public class PostsController {
 															);
 		
 		return attachedMedias	.stream()
-								.collect(Collectors.toMap(
-														PostMedia::getName
-														,PostMedia::getInternalId
-													)
-										);
+								.map(PostMediaDto::new)
+								.collect(Collectors.toList());
 	}
 
 }

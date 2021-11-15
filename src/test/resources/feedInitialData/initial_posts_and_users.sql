@@ -49,7 +49,7 @@ INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
 
 -- INSVERSE PRINCIPAL FRIENDS
 
-	INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
+INSERT INTO stranding_user_x_friends( stranding_user_id, friend_id )
 	VALUES(  
 		'a3d23d8c-2f11-11ec-8d3d-0242ac130003' -- dummy_friend
 		,'c2c15f60-2f0d-11ec-8d3d-0242ac130003'
