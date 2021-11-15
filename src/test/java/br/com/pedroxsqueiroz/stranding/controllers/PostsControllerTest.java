@@ -57,7 +57,6 @@ class PostsControllerTest {
 	void setup() throws MediaServiceNotAvailable, PostNotFoundException 
 	{
 		this.mvc = MockMvcBuilders.standaloneSetup(this.postsController).build();
-		
 	}
 	
 	@Test
@@ -102,16 +101,18 @@ class PostsControllerTest {
 					assertEquals( "amo_paçoca.jpg", firstMediaObject.get("name").asText() );
 					String responseFirstMediaId = firstMediaObject.get("id").asText();
 					assertEquals( firstDummyMediaId.toString(), responseFirstMediaId);
-					String firstInternalId = firstMediaObject.get("internalId").asText();
-					assertEquals( "1", firstInternalId);
+					String responseFirstInternalId = firstMediaObject.get("internalId").asText();
+					assertEquals( "1", responseFirstInternalId);
 					
 					JsonNode secondMediaObject = responseContent.get(1);
 					assertEquals( "desmotivacional.jpg", secondMediaObject.get("name").asText() );
-					String secondFirstMediaId = secondMediaObject.get("id").asText();
-					assertEquals( secondDummyMediaId.toString(), secondFirstMediaId);
-					String secondInternalId = secondMediaObject.get("internalId").asText();
-					assertEquals( "2", secondInternalId);
+					String responseSecondFirstMediaId = secondMediaObject.get("id").asText();
+					assertEquals( secondDummyMediaId.toString(), responseSecondFirstMediaId);
+					String responseSecondInternalId = secondMediaObject.get("internalId").asText();
+					assertEquals( "2", responseSecondInternalId);
 				});
 	}
+	
+	
 	
 }

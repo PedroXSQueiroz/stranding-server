@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,18 +44,19 @@ public class UserController {
 		return modelMapper.map(created, UserDto.class);
 	}
 	
-	@PutMapping("/{userId}/friends")
+	@PutMapping("/friends")
 	@ResponseBody
-	public List<User> addFriend(	@PathVariable("userId") String userIdStr
-								, 	@RequestBody List<String> friendsIdsStr)
+	public List<UUID> addFriends(@RequestBody List<String> friendsIdsStr, @AuthenticationPrincipal User user)
 	{
-		UUID userId = UUID.fromString(userIdStr);
 		
 		List<UUID> friendsIds = friendsIdsStr.stream()
 											.map(UUID::fromString)
 											.collect(Collectors.toList());
 		
-		return this.userService.addFriends(userId, friendsIds);
+		return this.userService.addFriends(user.getId(), friendsIds)
+								.stream()
+								.map( User::getId )
+								.collect(Collectors.toList());
 	}
 	
 }
