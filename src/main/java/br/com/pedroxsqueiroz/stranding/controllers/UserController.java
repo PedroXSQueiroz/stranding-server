@@ -46,7 +46,7 @@ public class UserController {
 	
 	@PutMapping("/friends")
 	@ResponseBody
-	public List<UUID> addFriends(@RequestBody List<String> friendsIdsStr, @AuthenticationPrincipal User user)
+	public List<String> addFriends(@RequestBody List<String> friendsIdsStr, @AuthenticationPrincipal User user)
 	{
 		
 		List<UUID> friendsIds = friendsIdsStr.stream()
@@ -56,6 +56,7 @@ public class UserController {
 		return this.userService.addFriends(user.getId(), friendsIds)
 								.stream()
 								.map( User::getId )
+								.map( UUID::toString )
 								.collect(Collectors.toList());
 	}
 	
