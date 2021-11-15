@@ -54,14 +54,14 @@ class PostsControllerTest {
 	private PostsController postsController = new PostsController();
 	
 	@BeforeAll
-	public void setup() throws MediaServiceNotAvailable, PostNotFoundException 
+	void setup() throws MediaServiceNotAvailable, PostNotFoundException 
 	{
 		this.mvc = MockMvcBuilders.standaloneSetup(this.postsController).build();
 		
 	}
 	
 	@Test
-	public void shouldAttachMediaToPost() throws Exception 
+	void shouldAttachMediaToPost() throws Exception 
 	{
 		final UUID firstDummyMediaId = UUID.randomUUID();
 		final UUID secondDummyMediaId = UUID.randomUUID();
