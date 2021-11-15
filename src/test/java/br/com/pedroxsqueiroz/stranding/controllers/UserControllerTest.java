@@ -44,7 +44,7 @@ import javax.transaction.Transactional;
 		,executionPhase = ExecutionPhase.BEFORE_TEST_METHOD )
 @Sql( 	scripts = { "/regrations/V001__droping_schema.sql" }
 		,executionPhase = ExecutionPhase.AFTER_TEST_METHOD )
-public class UserControllerTest {
+class UserControllerTest {
 
 	private MockMvc mvc;
 	
