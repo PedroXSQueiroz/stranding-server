@@ -18,21 +18,27 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
 import br.com.pedroxsqueiroz.stranding.dtos.TokenDto;
+import br.com.pedroxsqueiroz.stranding.dtos.UserDto;
 import br.com.pedroxsqueiroz.stranding.models.User;
+import br.com.pedroxsqueiroz.stranding.models.UserPermissions;
 import br.com.pedroxsqueiroz.stranding.services.AuthorizationService;
 import br.com.pedroxsqueiroz.stranding.services.UserService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -54,7 +60,6 @@ class UserControllerTest {
 	@Mock
 	private UserService mockUserService;
 	
-	
 	@InjectMocks
 	private UserController userController = new UserController();
 	
@@ -65,6 +70,20 @@ class UserControllerTest {
 					.standaloneSetup(this.userController)
 					.setCustomArgumentResolvers(new AuthenticationPrincipalArgumentResolver())
 					.build();
+		
+		Mockito.doReturn( User	.builder()
+								.name("New Dummy")
+								.login("new_dummy")
+								.profiles(	Set.of(
+												UserPermissions	.builder()
+															.name("default")
+															.build()
+												)
+								).id(UUID.randomUUID())
+								.build()
+								
+						).when(this.mockUserService)
+						.create(Mockito.any());
 	}
 	
 	@Transactional
@@ -91,11 +110,8 @@ class UserControllerTest {
 																.add("f7a77148-2f11-11ec-8d3d-0242ac130003");
 		String requestBody = jsonArrayOfFriends.toString();
 		
-		TokenDto token = this.authService.createToken( new UsernamePasswordAuthenticationToken("dummy", "P0k0$R#Med87RIaY") );
-		
 		this.mvc.perform( put("/user/friends" )
 								.content(requestBody)
-								.header("Authorization", "Bearer " + token.getToken() )
 								.contentType(MediaType.APPLICATION_JSON)
 						).andExpect(status().isOk())
 						.andExpect(result -> {
@@ -110,6 +126,51 @@ class UserControllerTest {
 							assertEquals( "f7a77148-2f11-11ec-8d3d-0242ac130003", response.get(2).asText() );
 							
 					});
+	}
+	
+//	@Test
+	void shouldCreateUser() throws Exception 
+	{
+		UserDto userDto = UserDto	.builder()
+				.name("New Dummy")
+				.password("123456Dummy")
+				.login("new_dummy")
+				.build();
+		
+		ObjectMapper serializer = new ObjectMapper();
+		
+		byte[] userDtoBytes = serializer.writeValueAsBytes(userDto);
+		
+		this.mvc.perform(	post("/user")
+							.content(userDtoBytes)
+							.contentType(MediaType.APPLICATION_JSON)
+						).andExpect(status().isOk())
+						.andExpect( result -> {
+							
+							byte[] responseContentBytes = result.getResponse().getContentAsByteArray();
+							
+							JsonNode responseContent = serializer.readTree(responseContentBytes);
+							
+							String savedUserName = responseContent.get("name").asText();
+							String savedUserLogin = responseContent.get("login").asText();
+							
+							assertEquals( "New Dummy", savedUserName );
+							assertEquals( "new_dummy", savedUserLogin );
+							
+							assertFalse( responseContent.has("passwword") );
+							
+							assertTrue( responseContent.has("id") );
+							
+							assertTrue( responseContent.has("profiles") );
+							
+							JsonNode profilesArrayNode = responseContent.get("profiles");
+							
+							assertTrue( profilesArrayNode.isArray() );
+							assertEquals(1, profilesArrayNode.size() );
+							assertEquals( "default", profilesArrayNode.get(0).asText() );
+							
+						});
+		
 	}
 	
 }

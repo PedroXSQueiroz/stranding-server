@@ -1,5 +1,6 @@
 package br.com.pedroxsqueiroz.stranding.dtos;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,5 +33,7 @@ public class UserDto {
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
+	
+	private List<String> profiles;
 	
 }

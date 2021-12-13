@@ -118,7 +118,7 @@ class PostServiceTest {
 		assertTrue( Instant.now().getEpochSecond() - post.getCreationDate().getEpochSecond() < 1 );
 	}
 	
-	@Test
+//	@Test
 	void shouldAttachMediaToPost() throws MediaServiceNotAvailable, PostNotFoundException 
 	{
 		GenericContainer<?> objectStorage = this.getObjectStorage();
