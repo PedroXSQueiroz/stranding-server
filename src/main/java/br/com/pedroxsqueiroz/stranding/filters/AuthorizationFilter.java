@@ -17,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Strings;
 
 import br.com.pedroxsqueiroz.stranding.exception.TokenException;
 import br.com.pedroxsqueiroz.stranding.models.User;
@@ -79,9 +80,9 @@ public class AuthorizationFilter extends OncePerRequestFilter{
 		
 		String requestURI = request.getRequestURI();
 		
-		return 	( "/user".equals(requestURI) && "POST".equals( request.getMethod() ) )
-				|| ( "/login".equals(requestURI) && "POST".equals( request.getMethod() ) )
-				|| ( requestURI.startsWith( "/actuator" ) && "GET".equals( request.getMethod() ) );
+		return 		( "/user".equals(requestURI) && "POST".equals( request.getMethod() ) )
+				|| 	( "/login".equals(requestURI) && "POST".equals( request.getMethod() ) )
+				|| 	( !Strings.isNullOrEmpty(requestURI) &&( requestURI.startsWith( "/actuator" ) && "GET".equals( request.getMethod() ) ) );
 	}
 
 }
